@@ -1,0 +1,128 @@
+
+Keywords:
+SELECT - extracts data from a database
+UPDATE - updates data in a database
+DELETE - deletes data from a database
+INSERT INTO - inserts new data into a database
+CREATE DATABASE - creates a new database
+ALTER DATABASE - modifies a database
+CREATE TABLE - creates a new table
+ALTER TABLE - modifies a table
+DROP TABLE - deletes a table
+CREATE INDEX - creates an index (search key)
+DROP INDEX - deletes an index
+
+var results = await query.queryMulti(
+    'insert into users (name, email, age) values (?, ?, ?)',
+    [['Bob', 'bob@bob.com', 25],
+    ['Bill', 'bill@bill.com', 26],
+    ['Joe', 'joe@joe.com', 37]]);
+
+CREATE DATABASE databasename;
+DROP DATABASE databasename;
+USE db_name
+
+select schema_name from information_schema.schemata where schema_name = 'database name'; //check if exist
+select * from information_schema.tables where table_name='Client_information';
+
+CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+   ....
+);
+DROP TABLE table_name;
+ALTER TABLE table_name
+ADD column_name datatype;
+
+CREATE INDEX index_name
+ON table_name (column1, column2, ...);
+CREATE UNIQUE INDEX index_name
+ON table_name (column1, column2, ...);
+
+
+example{
+    CREATE TABLE Persons (
+        ID int NOT NULL AUTO_INCREMENT,
+        LastName varchar(255) NOT NULL DEFAULT 'Sandnes'
+        FirstName varchar(255),
+        Age int,
+        reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        [CONSTRAINT UC_Person] UNIQUE (ID, LastName),
+        [CONSTRAINT PK] PRIMARY KEY (ID),
+        FOREIGN KEY (PersonID) REFERENCES Persons(PersonID),
+        CHECK (Age>=18)
+    );
+    ALTER TABLE Persons
+    ADD UNIQUE (ID);
+    ALTER TABLE Persons
+    DROP INDEX UC_Person;
+    ALTER TABLE Persons
+    ALTER City SET DEFAULT 'Sandnes';
+}
+
+SELECT column1, column2, ...
+FROM table_name [USE INDEX(index_list)]
+WHERE condition //AND (NOT) condition2 //OR (NOT) condition3 (IS (NOT) NULL)
+ORDER BY column1, column2, ... ASC|DESC
+LIMIT ammount OFFSET index; || LIMIT index, ammount
+
+SELECT column_name(s)
+FROM table_name
+WHERE condition 
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+
+
+SELECT //MAX//MIN(column_name)
+FROM table_name
+WHERE condition;
+
+SELECT COUNT(column_name) --number of rows
+FROM table_name
+WHERE condition;
+
+SELECT AVG(column_name)
+FROM table_name
+WHERE condition;
+
+SELECT SUM(column_name)
+FROM table_name
+WHERE condition;
+
+SELECT column1, column2, ...  
+FROM table_name
+WHERE columnN LIKE pattern; --pattern= % for char >=0  or _ for char == 1
+
+SELECT column_name(s)
+FROM table_name
+WHERE column_name (NOT) IN (value1, value2, ...)||(SELECT STATEMENT);
+
+SELECT column_name(s)
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+
+SELECT column_name(s)
+FROM table_name
+WHERE EXISTS
+(SELECT column_name FROM table_name WHERE condition);
+
+SELECT column_name(s)
+FROM table_name
+WHERE column_name operator ANY||AL
+  (SELECT column_name
+  FROM table_name
+  WHERE condition);
+
+
+SELECT * FROM table_name;
+
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Cardinal', 'Stavanger', 'Norway');
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+DELETE FROM table_name WHERE condition;
